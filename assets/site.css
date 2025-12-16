@@ -259,8 +259,8 @@ h1 {
 .hero-image {
   display: block;
   margin: 0 auto;
-  width: min(600px, 60%);
-  max-width: 60%;
+  width: min(600px, 90%);
+  max-width: 90%;
   height: auto;
 }
 
