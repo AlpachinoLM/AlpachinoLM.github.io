@@ -7,9 +7,9 @@
   <meta name="description" content="Differentiable Multi-Scale Multi-Modal Tokenizer for Radiology Report Generation">
   <meta property="og:title" content="μ²Tokenizer"/>
   <meta property="og:description" content="Differentiable Multi-Scale Multi-Modal Tokenizer for Radiology Report Generation"/>
-  <meta property="og:url" content="https://alpachino.org/proj/u2tokenizer/index_zh.html"/>
+  <meta property="og:url" content="https://alpachino.org/index_zh.html"/>
   <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
-  <meta property="og:image" content="proj/u2tokenizer/static/images/cover_linkedin.png" />
+  <meta property="og:image" content="static/images/cover_linkedin.png" />
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
 
@@ -17,14 +17,14 @@
   <meta name="twitter:title" content="μ²Tokenizer">
   <meta name="twitter:description" content="Differentiable Multi-Scale Multi-Modal Tokenizer for Radiology Report Generation">
   <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
-  <meta name="twitter:image" content="proj/u2tokenizer/static/images/cover_linkedin.png">
+  <meta name="twitter:image" content="static/images/cover_linkedin.png">
   <meta name="twitter:card" content="μ²Tokenizer">
   <!-- Keywords for your paper to be indexed by-->
   <meta name="keywords" content="radiology report generation, multimodal large language models">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>μ²Tokenizer</title>
-  <link rel="icon" type="image/x-icon" href="proj/u2tokenizer/static/images/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
   rel="stylesheet">
 
@@ -57,7 +57,7 @@
         <div class="columns is-centered">
           <div class="column has-text-centered">
             <div class="title-container">
-              <img src="proj/u2tokenizer/static/images/logo.svg" alt="Logo" class="logo-img">
+              <img src="static/images/logo.svg" alt="Logo" class="logo-img">
               <h1 class="title is-size-1-desktop is-size-2-tablet is-size-3-mobile publication-title">
                   μ²Tokenizer: 用于放射学报告生成的可微多尺度多模态Tokenizer
               </h1>
@@ -134,33 +134,33 @@
                   </a>
                   <span class="link-block">
                       <a href="https://huggingface.co/datasets/SiyouLi/u2Qwen3" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                          <span class="icon" style="vertical-align: middle; font-size: 30px;"><img src="/proj/u2tokenizer/static/images/hf.svg"></span>
+                          <span class="icon" style="vertical-align: middle; font-size: 30px;"><img src="static/images/hf.svg"></span>
                           <span style="vertical-align: middle;">μ²Qwen3*</span>
                       </a>
                   </span>
                   <br>
                   <span class="link-block">
                       <a href="https://huggingface.co/datasets/SiyouLi/CT-RATE-Thinking-English" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                          <span class="icon" style="vertical-align: middle; font-size: 30px;"><img src="/proj/u2tokenizer/static/images/hf.svg"></span>
+                          <span class="icon" style="vertical-align: middle; font-size: 30px;"><img src="static/images/hf.svg"></span>
                           <span style="vertical-align: middle;">CT-RATE-Thinking-English*</span>
                       </a>
                   </span>
                   <span class="link-block">
                       <a href="https://huggingface.co/datasets/SiyouLi/CT-RATE-Thinking-Chinese" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                          <span class="icon" style="vertical-align: middle; font-size: 30px;"><img src="/proj/u2tokenizer/static/images/hf.svg"></span>
+                          <span class="icon" style="vertical-align: middle; font-size: 30px;"><img src="static/images/hf.svg"></span>
                           <span style="vertical-align: middle;">CT-RATE-Thinking-Chinese*</span>
                       </a>
                   </span>
                   <br>
                   <span class="link-block">
                       <a href="https://huggingface.co/datasets/SiyouLi/CT-RATE-Chinese" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                          <span class="icon" style="vertical-align: middle; font-size: 30px;"><img src="/proj/u2tokenizer/static/images/hf.svg"></span>
+                          <span class="icon" style="vertical-align: middle; font-size: 30px;"><img src="static/images/hf.svg"></span>
                           <span style="vertical-align: middle;">CT-RATE-Chinese</span>
                       </a>
                   </span>
                   <span class="link-block">
                       <a href="https://huggingface.co/datasets/SiyouLi/CT-RATE-Mini" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                          <span class="icon" style="vertical-align: middle; font-size: 30px;"><img src="/proj/u2tokenizer/static/images/hf.svg"></span>
+                          <span class="icon" style="vertical-align: middle; font-size: 30px;"><img src="static/images/hf.svg"></span>
                           <span style="vertical-align: middle;">CT-RATE-Mini</span>
                       </a>
                   </span>
@@ -267,7 +267,7 @@
             </ol>
             <p>为了解决这些问题，我们提出了 <strong>μ²LLM</strong>，一种多尺度多模态的大型语言模型。其核心为创新的 <strong>μ² Tokenizer</strong> 中间层，能够智能地将 CT 图像的视觉特征与文本信息融合。该模型在专用医学报告评估指标 GREEN 的指导下，通过直接偏好优化（DPO）进一步提升，使生成的报告符合专家标准。</p>
             <p>在四个大规模 CT 数据集上的实验结果表明，μ²LLM 的性能优于现有方法，即使训练数据有限，也能生成高质量的放射学报告。</p>
-            <img src="proj/u2tokenizer/static/images/cover.svg" alt="Weight distance correlation" class="blend-img-background center-image responsive-img">
+            <img src="static/images/cover.svg" alt="Weight distance correlation" class="blend-img-background center-image responsive-img">
         </div>
       </div>
     </div>
@@ -290,7 +290,7 @@
           </div>
           <br>
             <br>
-            <img src="/proj/u2tokenizer/static/images/dpo.svg" alt="Weight distance correlation" class="blend-img-background center-image responsive-img">
+            <img src="static/images/dpo.svg" alt="Weight distance correlation" class="blend-img-background center-image responsive-img">
             <br>
         </div>
       </div>
@@ -308,7 +308,7 @@
         <p><strong>Overall Pipeline (μ²LLM)</strong>
         <br>
         <br>
-        <img src="/proj/u2tokenizer/static/images/u2llm.svg" alt="Weight distance correlation" class="blend-img-background center-image responsive-img">
+        <img src="static/images/u2llm.svg" alt="Weight distance correlation" class="blend-img-background center-image responsive-img">
         <br>
         <em>Fig. 1: Overview of our proposed µ²LLM model that is centered with the μ² Tokenizer layer for high quality RRG task.</em> </p>
         <ol>
@@ -338,7 +338,7 @@
         <div class="content">
           <h2 class="title is-3">Prompt 工程</h2>
           <br>
-          <img src="/proj/u2tokenizer/static/images/prompt_engineering_d.svg" alt="Weight distance correlation" class="blend-img-background center-image responsive-img">
+          <img src="static/images/prompt_engineering_d.svg" alt="Weight distance correlation" class="blend-img-background center-image responsive-img">
           <br>
           <p>在我们的工作流程中，我们应用了三种及时工程技术 -  “CT报告重写”，“CT报告推理合成”和“CT报告翻译” - 这里特别强调“CT报告推理合成”。附录A中列出了具体过程和涉及的提示。</p>
           <p>我们的流水线将每份 CT 放射学报告转换为两种互补的监督信号：一组具有临床意义的视觉-问答（VQA）对，以及一条连贯的、由模型生成的思维链，解读报告的发现。一套轻量级控制器编排由五个 LLM 驱动的阶段，确保问题、答案和推理痕迹既忠实于源文本，又涵盖广泛的放射学关注点。</p>
@@ -616,7 +616,7 @@
   <script type="module" async>
       import { Niivue } from "https://unpkg.com/@niivue/niivue@0.57.0/dist/index.js"
       var volumeList = [
-          { url: "https://img.staticstuff.top/amos_5001.nii.gz" },
+          { url: "static/images/amos_5001.nii.gz" },
       ];
       var nv = new Niivue({ isResizeCanvas: true, backColor: [1, 1, 1, 1] });
       nv.setSliceType(nv.sliceTypeMultiplanar);

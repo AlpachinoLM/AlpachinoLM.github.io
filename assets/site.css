@@ -252,6 +252,18 @@ h1 {
   box-shadow: var(--shadow);
 }
 
+.hero-figure {
+  padding: 10px 0 6px;
+}
+
+.hero-image {
+  display: block;
+  margin: 0 auto;
+  width: min(600px, 60%);
+  max-width: 60%;
+  height: auto;
+}
+
 .panel-glow {
   position: absolute;
   inset: -80px -120px auto auto;
@@ -413,4 +425,3 @@ h2 {
   outline: 3px solid rgba(34, 197, 94, 0.45);
   outline-offset: 3px;
 }
-
