@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Alpachino</title>
+    <meta
+      name="description"
+      content="Alpachino is a research team exploring multimodal large language models across language, image, video, and audio."
+    />
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="./" aria-label="Alpachino home">
+          <img class="brand-logo" src="assets/logo.svg" alt="Alpachino" />
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a href="#projects">Projects</a>
+          <a href="#about">About</a>
+          <a href="https://github.com/AlpachinoLM" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <p class="eyebrow">Multimodal LLM</p>
+            <h1>Alpachino</h1>
+            <p class="lead">
+              Hey there! Welcome to our team’s corner. We’re enthusiastic about Multimodal
+              Large Language Models and explore ways to enhance interactions between language and
+              image/video/audio.
+            </p>
+            <div class="cta-row">
+              <a class="button primary" href="#projects">Explore projects</a>
+              <a class="button" href="https://github.com/AlpachinoLM" target="_blank" rel="noopener"
+                >Visit GitHub</a
+              >
+            </div>
+          </div>
+          <div class="hero-panel" role="presentation" aria-hidden="true">
+            <div class="panel-glow"></div>
+            <div class="panel-content">
+              <div class="stat">
+                <div class="stat-k">Focus</div>
+                <div class="stat-v">Tokenization • Efficiency • Alignment</div>
+              </div>
+              <div class="stat">
+                <div class="stat-k">Modalities</div>
+                <div class="stat-v">Text + Image + Video + Audio</div>
+              </div>
+              <div class="stat">
+                <div class="stat-k">Where</div>
+                <div class="stat-v">Open-source projects & paper pages</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- image put in center -->
+      <img src="assets/alpachino.svg" alt="Hero Image" style="display: block; margin: 0 auto; width: 50%;" />
+      <section class="section" id="projects">
+        <div class="container">
+          <div class="section-head">
+            <h2>Projects</h2>
+            <p class="muted">Project pages hosted at <span class="mono">/proj/*</span>.</p>
+          </div>
+
+          <div class="grid">
+            <article class="card">
+              <div class="card-top">
+                <h3>QTSplus</h3>
+                <p class="muted">Query-Aware Tokenizer for Long-Video Multimodal Language Models.</p>
+              </div>
+              <div class="card-actions">
+                <a class="button primary" href="proj/qtsplus/">Open page</a>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-top">
+                <h3>μ²Tokenizer</h3>
+                <p class="muted">
+                  Differentiable Multi-Scale Multi-Modal Tokenizer for Radiology Report Generation.
+                </p>
+              </div>
+              <div class="card-actions">
+                <a class="button primary" href="proj/u2tokenizer/">Open page</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="container">
+          <div class="section-head">
+            <h2>About</h2>
+          </div>
+          <div class="prose">
+            <p>
+              Our research explores innovative ways to make AI systems better understand and
+              generate multimodal content. We’re always on the lookout for practical techniques
+              that improve capability and efficiency without sacrificing quality.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p class="muted">© <span id="year"></span> Alpachino. Built as a static site.</p>
+        <p class="muted">
+          <a href="https://github.com/AlpachinoLM/AlpachinoLM.github.io" target="_blank" rel="noopener"
+            >Source</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = String(new Date().getFullYear());
+    </script>
+  </body>
+</html>
+
