@@ -3,13 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Alpachino</title>
+    <title>
+      Alpachino
+    </title>
     <meta
       name="description"
       content="Alpachino is a research team exploring multimodal large language models across language, image, video, and audio."
     />
     <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="assets/site.css" />
+    <style>
+      .embedding-card {
+        aspect-ratio: 2 / 1;
+      }
+
+      .embedding-canvas {
+        margin: 0;
+        height: 100%;
+      }
+    </style>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -32,7 +44,9 @@
         <div class="container hero-inner">
           <div class="hero-copy">
             <p class="eyebrow">Multimodal LLM</p>
-            <h1>Alpachino</h1>
+            <h1>
+              <span style="color:#009900;">A</span>lpachino
+            </h1>
             <p class="lead">
               Hey there! Welcome to our team’s corner. We’re enthusiastic about Multimodal
               Large Language Models and explore ways to enhance interactions between language and
@@ -54,11 +68,11 @@
               </div>
               <div class="stat">
                 <div class="stat-k">Modalities</div>
-                <div class="stat-v">Text + Image + Video + Audio</div>
+                <div class="stat-v">Text • Image • Video • Audio</div>
               </div>
               <div class="stat">
                 <div class="stat-k">Where</div>
-                <div class="stat-v">Open-source projects & paper pages</div>
+                <div class="stat-v">Open-source Research</div>
               </div>
             </div>
           </div>
@@ -66,7 +80,23 @@
       </section>
       <section class="hero-figure" aria-label="Hero graphic">
         <div class="container">
-          <img class="hero-image" src="assets/alpachino.svg" alt="Hero Image" />
+          <div class="hero-figure-inner" style="display: flex; align-items: center; justify-content: center; gap: 2rem;">
+            <div
+              class="embedding-card"
+              aria-label="Animated embedding space where text, image, video, and audio features merge into a unified representation."
+            >
+              <canvas class="embedding-canvas" id="embedding-space" aria-hidden="true">
+                Embedding space animation
+              </canvas>
+              <div class="embedding-legend">
+                <span class="legend-item legend-text">Text</span>
+                <span class="legend-item legend-image">Image</span>
+                <span class="legend-item legend-video">Video</span>
+                <span class="legend-item legend-audio">Audio</span>
+              </div>
+            </div>
+            <img class="hero-image" src="assets/model.svg" alt="Hero Image" />
+          </div>
         </div>
       </section>
       <section class="section" id="projects">
@@ -131,6 +161,409 @@
 
     <script>
       document.getElementById('year').textContent = String(new Date().getFullYear());
+
+      (() => {
+        const canvas = document.getElementById('embedding-space');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d', { alpha: true });
+        if (!ctx) return;
+
+        const card = canvas.closest('.embedding-card');
+        if (!card) return;
+
+        const matchMedia = typeof window.matchMedia === 'function' ? window.matchMedia.bind(window) : null;
+        const prefersReducedMotion = matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : null;
+        const prefersDarkScheme = matchMedia ? matchMedia('(prefers-color-scheme: dark)') : null;
+
+        const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+        const lerp = (a, b, t) => a + (b - a) * t;
+
+        const parseColor = (input) => {
+          const value = String(input || '').trim();
+          if (!value) return null;
+
+          if (value.startsWith('#')) {
+            const hex = value.slice(1);
+            if (hex.length === 3) {
+              const r = parseInt(hex[0] + hex[0], 16);
+              const g = parseInt(hex[1] + hex[1], 16);
+              const b = parseInt(hex[2] + hex[2], 16);
+              return [r, g, b, 1];
+            }
+            if (hex.length === 6) {
+              const r = parseInt(hex.slice(0, 2), 16);
+              const g = parseInt(hex.slice(2, 4), 16);
+              const b = parseInt(hex.slice(4, 6), 16);
+              return [r, g, b, 1];
+            }
+            return null;
+          }
+
+          const match = value.match(/rgba?\(([^)]+)\)/i);
+          if (!match) return null;
+
+          const parts = match[1]
+            .split(',')
+            .map((part) => part.trim())
+            .filter(Boolean);
+          if (parts.length < 3) return null;
+
+          const r = Number.parseFloat(parts[0]);
+          const g = Number.parseFloat(parts[1]);
+          const b = Number.parseFloat(parts[2]);
+          const a = parts.length >= 4 ? Number.parseFloat(parts[3]) : 1;
+          if (![r, g, b, a].every((n) => Number.isFinite(n))) return null;
+          return [r, g, b, clamp(a, 0, 1)];
+        };
+
+        const colorToString = (rgba, alphaOverride) => {
+          const [r, g, b, a] = rgba;
+          const alpha = typeof alphaOverride === 'number' ? alphaOverride : a;
+          return `rgba(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}, ${clamp(alpha, 0, 1)})`;
+        };
+
+        const mixColor = (from, to, t, alphaScale = 1) => {
+          const tt = clamp(t, 0, 1);
+          const rgba = [
+            lerp(from[0], to[0], tt),
+            lerp(from[1], to[1], tt),
+            lerp(from[2], to[2], tt),
+            lerp(from[3], to[3], tt) * alphaScale,
+          ];
+          return rgba;
+        };
+
+        const getTheme = () => ({
+          dark: prefersDarkScheme ? prefersDarkScheme.matches : false,
+        });
+
+        const getPalette = () => {
+          const cardStyle = getComputedStyle(card);
+          const rootStyle = getComputedStyle(document.documentElement);
+
+          const accent = parseColor(rootStyle.getPropertyValue('--accent')) ?? [34, 197, 94, 1];
+          const text = parseColor(cardStyle.getPropertyValue('--embed-text')) ?? [96, 165, 250, 0.95];
+          const image = parseColor(cardStyle.getPropertyValue('--embed-image')) ?? [250, 204, 21, 0.95];
+          const video = parseColor(cardStyle.getPropertyValue('--embed-video')) ?? [167, 139, 250, 0.95];
+          const audio = parseColor(cardStyle.getPropertyValue('--embed-audio')) ?? [251, 113, 133, 0.95];
+
+          return { accent, groups: [text, image, video, audio] };
+        };
+
+        const state = {
+          width: 0,
+          height: 0,
+          dpr: 1,
+          particles: [],
+          start: performance.now(),
+          last: 0,
+          raf: 0,
+          visible: true,
+          palette: getPalette(),
+          theme: getTheme(),
+        };
+
+        const makeSources = () => {
+          const pad = Math.min(42, Math.min(state.width, state.height) * 0.16);
+          return [
+            { x: pad, y: state.height * 0.5 },
+            { x: state.width * 0.5, y: pad },
+            { x: state.width - pad, y: state.height * 0.5 },
+            { x: state.width * 0.5, y: state.height - pad },
+          ];
+        };
+
+        const makeCenter = () => ({
+          x: state.width * (state.width < state.height ? 0.5 : 0.62),
+          y: state.height * 0.5,
+        });
+
+        const respawnParticle = (particle, groupIndex) => {
+          const sources = makeSources();
+          const source = sources[groupIndex];
+          const jitter = Math.min(28, Math.min(state.width, state.height) * 0.11);
+
+          particle.group = groupIndex;
+          particle.x = source.x + (Math.random() - 0.5) * jitter;
+          particle.y = source.y + (Math.random() - 0.5) * jitter;
+          particle.vx = (Math.random() - 0.5) * 40;
+          particle.vy = (Math.random() - 0.5) * 40;
+          particle.size = 1 + Math.random() * 1.9;
+          particle.phase = Math.random() * Math.PI * 2;
+          particle.life = 0;
+          particle.ttl = 6.5 + Math.random() * 5.0;
+        };
+
+        const initParticles = () => {
+          const count = Math.round(
+            clamp((state.width * state.height) / 1400, 110, 170)
+          );
+          state.particles = new Array(count).fill(null).map((_, i) => {
+            const particle = {};
+            respawnParticle(particle, i % 4);
+            particle.life = Math.random() * particle.ttl;
+            return particle;
+          });
+        };
+
+        const resize = () => {
+          const rect = canvas.getBoundingClientRect();
+          if (!rect.width || !rect.height) return;
+
+          state.dpr = Math.min(2, window.devicePixelRatio || 1);
+          canvas.width = Math.round(rect.width * state.dpr);
+          canvas.height = Math.round(rect.height * state.dpr);
+          ctx.setTransform(state.dpr, 0, 0, state.dpr, 0, 0);
+          state.width = rect.width;
+          state.height = rect.height;
+          state.theme = getTheme();
+          state.palette = getPalette();
+          initParticles();
+          draw(performance.now(), true);
+        };
+
+        const drawBackground = (theme, palette) => {
+          ctx.clearRect(0, 0, state.width, state.height);
+
+          const center = makeCenter();
+          const glow = ctx.createRadialGradient(
+            center.x,
+            center.y,
+            0,
+            center.x,
+            center.y,
+            Math.min(state.width, state.height) * 0.58
+          );
+          const glowAlpha = theme.dark ? 0.18 : 0.12;
+          glow.addColorStop(0, colorToString(palette.accent, glowAlpha));
+          glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+          ctx.fillStyle = glow;
+          ctx.fillRect(0, 0, state.width, state.height);
+
+          const gridAlpha = theme.dark ? 0.07 : 0.06;
+          const gridColor = theme.dark ? 'rgba(248, 250, 252, 1)' : 'rgba(15, 23, 42, 1)';
+          const step = clamp(Math.min(state.width, state.height) / 6.5, 34, 58);
+
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = gridColor;
+          ctx.globalAlpha = gridAlpha;
+          ctx.beginPath();
+          for (let x = step; x < state.width; x += step) {
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, state.height);
+          }
+          for (let y = step; y < state.height; y += step) {
+            ctx.moveTo(0, y);
+            ctx.lineTo(state.width, y);
+          }
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        };
+
+        const draw = (now, singleFrame = false) => {
+          const shouldReduce = Boolean(prefersReducedMotion && prefersReducedMotion.matches);
+          if (!singleFrame && (!state.visible || shouldReduce)) return;
+
+          if (!state.last) state.last = now;
+          const dt = clamp((now - state.last) / 1000, 0, 0.05);
+          state.last = now;
+
+          const theme = state.theme;
+          const palette = state.palette;
+          drawBackground(theme, palette);
+
+          const t = (now - state.start) / 1000;
+          const unify = 1 - Math.exp(-t / 3.2);
+
+          const center = makeCenter();
+          const sources = makeSources();
+
+          const radius = Math.min(state.width, state.height) * 0.46;
+          const maxLink = Math.min(state.width, state.height) * 0.18;
+          const maxLink2 = maxLink * maxLink;
+
+          const swirl = 0.011 + 0.006 * Math.sin(t * 1.15);
+          const attract = 2.2;
+          const damping = 0.84;
+
+          for (const particle of state.particles) {
+            particle.life += dt;
+            if (particle.life > particle.ttl) {
+              respawnParticle(particle, particle.group);
+            }
+
+            const source = sources[particle.group];
+            const homeX = lerp(source.x, center.x, unify);
+            const homeY = lerp(source.y, center.y, unify);
+
+            const dx = particle.x - center.x;
+            const dy = particle.y - center.y;
+            const dist = Math.hypot(dx, dy);
+
+            let ax = (homeX - particle.x) * attract;
+            let ay = (homeY - particle.y) * attract;
+
+            const orbitFactor = (0.55 + 0.45 * unify) * clamp(1 - dist / (radius * 1.15), 0, 1);
+            ax += -dy * swirl * orbitFactor * 90;
+            ay += dx * swirl * orbitFactor * 90;
+
+            const wiggle = 10 * (0.3 + 0.7 * orbitFactor);
+            ax += Math.cos(particle.phase + t * 1.9) * wiggle;
+            ay += Math.sin(particle.phase + t * 1.7) * wiggle;
+
+            particle.vx = particle.vx * damping + ax * dt;
+            particle.vy = particle.vy * damping + ay * dt;
+            particle.x += particle.vx * dt;
+            particle.y += particle.vy * dt;
+
+            const pad = 10;
+            if (particle.x < pad) {
+              particle.x = pad;
+              particle.vx *= -0.65;
+            } else if (particle.x > state.width - pad) {
+              particle.x = state.width - pad;
+              particle.vx *= -0.65;
+            }
+            if (particle.y < pad) {
+              particle.y = pad;
+              particle.vy *= -0.65;
+            } else if (particle.y > state.height - pad) {
+              particle.y = state.height - pad;
+              particle.vy *= -0.65;
+            }
+          }
+
+          for (let i = 0; i < state.particles.length; i += 1) {
+            const a = state.particles[i];
+            for (let j = i + 1; j < state.particles.length; j += 1) {
+              const b = state.particles[j];
+              const dx = a.x - b.x;
+              const dy = a.y - b.y;
+              const d2 = dx * dx + dy * dy;
+              if (d2 > maxLink2) continue;
+
+              const alpha = (1 - d2 / maxLink2) * (theme.dark ? 0.22 : 0.18) * (0.35 + 0.65 * unify);
+              ctx.strokeStyle = colorToString(palette.accent, alpha);
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+
+          for (const particle of state.particles) {
+            const dx = particle.x - center.x;
+            const dy = particle.y - center.y;
+            const dist = Math.hypot(dx, dy);
+            const mix = clamp(1 - dist / radius, 0, 1) * unify;
+
+            const groupColor = palette.groups[particle.group];
+            const core = mixColor(groupColor, palette.accent, mix);
+
+            const outerAlpha = (theme.dark ? 0.18 : 0.14) * (0.6 + 0.4 * mix);
+            const innerAlpha = (theme.dark ? 0.88 : 0.82) * (0.55 + 0.45 * mix);
+
+            ctx.fillStyle = colorToString(core, outerAlpha);
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size * 2.2, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = colorToString(core, innerAlpha);
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          const ringAlpha = theme.dark ? 0.24 : 0.18;
+          ctx.strokeStyle = colorToString(palette.accent, ringAlpha);
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.ellipse(center.x, center.y, radius * 0.55, radius * 0.35, 0, 0, Math.PI * 2);
+          ctx.stroke();
+
+          if (!singleFrame) {
+            state.raf = requestAnimationFrame(draw);
+          }
+        };
+
+        const start = () => {
+          const shouldReduce = Boolean(prefersReducedMotion && prefersReducedMotion.matches);
+          if (shouldReduce || state.raf) return;
+          state.last = 0;
+          state.raf = requestAnimationFrame(draw);
+        };
+
+        const stop = () => {
+          if (!state.raf) return;
+          cancelAnimationFrame(state.raf);
+          state.raf = 0;
+        };
+
+        resize();
+
+        window.addEventListener('resize', resize, { passive: true });
+        window.addEventListener('orientationchange', resize, { passive: true });
+
+        document.addEventListener(
+          'visibilitychange',
+          () => {
+            if (document.hidden) stop();
+            else start();
+          },
+          { passive: true }
+        );
+
+        if (prefersReducedMotion) {
+          const onChange = () => {
+            if (prefersReducedMotion.matches) {
+              stop();
+              draw(performance.now(), true);
+            } else {
+              start();
+            }
+          };
+
+          if (typeof prefersReducedMotion.addEventListener === 'function') {
+            prefersReducedMotion.addEventListener('change', onChange);
+          } else if (typeof prefersReducedMotion.addListener === 'function') {
+            prefersReducedMotion.addListener(onChange);
+          }
+        }
+
+        if (prefersDarkScheme) {
+          const onChange = () => {
+            state.theme = getTheme();
+            state.palette = getPalette();
+            draw(performance.now(), true);
+          };
+
+          if (typeof prefersDarkScheme.addEventListener === 'function') {
+            prefersDarkScheme.addEventListener('change', onChange);
+          } else if (typeof prefersDarkScheme.addListener === 'function') {
+            prefersDarkScheme.addListener(onChange);
+          }
+        }
+
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              state.visible = entries.some((entry) => entry.isIntersecting);
+              if (state.visible) start();
+              else stop();
+            },
+            { threshold: 0.12 }
+          );
+          observer.observe(canvas);
+        } else {
+          start();
+        }
+
+        if (prefersReducedMotion && prefersReducedMotion.matches) {
+          draw(performance.now(), true);
+        }
+      })();
     </script>
   </body>
 </html>
